@@ -1,7 +1,8 @@
 import { initializeAp, initializeApp } from 'firebase/app';
 import {
-    getFirestore, collection, getDocs,
-    addDoc, deleteDoc, doc
+    getFirestore, collection, onSnapshot,
+    addDoc, deleteDoc, doc,
+    query, where
 } from 'firebase/firestore'
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -19,20 +20,33 @@ initializeApp(firebaseConfig)
 const db = getFirestore()
 
 
-
+// collection ref
 const colRef = collection(db, 'books')
 
-getDocs(colRef)
-    .then((snapshot) => {
-        let books = []
-        snapshot.docs.forEach((doc) => {
-            books.push({ ...doc.data(), id: doc.id })
-        })
-        console.log(books)
+// queries
+const q = query(colRef, where("author", "==", "Rowling"))
+
+// accessing collection
+// getDocs(colRef)
+//     .then((snapshot) => {
+//         let books = []
+//         snapshot.docs.forEach((doc) => {
+//             books.push({ ...doc.data(), id: doc.id })
+//         })
+//         console.log(books)
+//     })
+//     .catch(err => {
+//         console.log(err.message)
+//     })
+
+// real time collection through subscription
+onSnapshot(q, (snapshot) => {
+    let books = []
+    snapshot.docs.forEach(doc => {
+        books.push({ ...doc.data(), id: doc.id })
     })
-    .catch(err => {
-        console.log(err.message)
-    })
+    console.log(books)
+})
 
 // adding docs
 const addBookForm = document.querySelector('.add')
