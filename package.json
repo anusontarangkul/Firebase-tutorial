@@ -1,0 +1,25 @@
+{
+  "name": "firebase-tutorial",
+  "version": "1.0.0",
+  "description": "firebase 9 tutorial",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anusontarangkul/Firebase-tutorial.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anusontarangkul/Firebase-tutorial/issues"
+  },
+  "homepage": "https://github.com/anusontarangkul/Firebase-tutorial#readme",
+  "devDependencies": {
+    "webpack": "^5.64.4",
+    "webpack-cli": "^4.9.1"
+  }
+}
