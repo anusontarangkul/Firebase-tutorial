@@ -2,7 +2,9 @@ import { initializeAp, initializeApp } from 'firebase/app';
 import {
     getFirestore, collection, onSnapshot,
     addDoc, deleteDoc, doc,
-    query, where
+    query, where,
+    orderBy, serverTimestamp,
+    getDoc, updateDoc
 } from 'firebase/firestore'
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -24,7 +26,7 @@ const db = getFirestore()
 const colRef = collection(db, 'books')
 
 // queries
-const q = query(colRef, where("author", "==", "Rowling"))
+const q = query(colRef, orderBy('createdAt'))
 
 // accessing collection
 // getDocs(colRef)
@@ -56,6 +58,7 @@ addBookForm.addEventListener('submit', (e) => {
     addDoc(colRef, {
         title: addBookForm.title.value,
         author: addBookForm.author.value,
+        createdAt: serverTimestamp()
     })
         .then(() => {
             addBookForm.reset()
@@ -73,4 +76,27 @@ deleteBookForm.addEventListener('submit', (e) => {
         .then(() => {
             deleteBookForm.reset()
         })
+})
+
+// get a single document
+const docRef = doc(db, 'books', 'WiZAEr90YpKGaL8Agii9')
+
+
+onSnapshot(docRef, (doc) => {
+    console.log(doc.data(), doc.id)
+})
+
+// updating a document
+const updateForm = document.querySelector('.update')
+updateForm.addEventListener('submit', (e) => {
+    e.preventDefault()
+    const docRef = doc(db, 'books', updateForm.id.value)
+
+    updateDoc(docRef, {
+        title: 'updated title'
+    })
+        .then(() => {
+            updateForm.reset
+        })
+
 })
